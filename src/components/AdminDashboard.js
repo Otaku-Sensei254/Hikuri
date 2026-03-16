@@ -31,8 +31,6 @@ const AdminDashboard = () => {
       setIsLoggedIn(true);
     }
   }, []);
-  
-  // eslint-disable-next-line no-unused-vars
 
   // Load orders from localStorage on mount and set up interval to check for new orders
   useEffect(() => {
@@ -97,7 +95,6 @@ const AdminDashboard = () => {
     localStorage.setItem('hikuriOrders', JSON.stringify(updatedSavedOrders));
     
     // Add notification
-    const order = orders.find(o => o.id === orderId);
     setNotifications(prev => [
       ...prev,
       {
