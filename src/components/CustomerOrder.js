@@ -117,6 +117,7 @@ const CustomerOrder = () => {
   const allProducts = [...coffeeProducts, ...drinksProducts, ...foodProducts];
   const [selectedCategory, setSelectedCategory] = useState('coffee-seeds');
 
+  // eslint-disable-next-line no-unused-vars
   const addToCart = (product, size = null) => {
     const cartItem = {
       ...product,

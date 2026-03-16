@@ -77,6 +77,8 @@ function App() {
       setCurrentPage('admin');
     }
   }, []);
+  
+  // eslint-disable-next-line no-unused-vars
 
   // Initial animations
   useEffect(() => {
