@@ -237,7 +237,7 @@ function App() {
       </header>
 
       {/* About Section */}
-      <section id="about" className="about container">
+      <section id="about" className="about container" style={{padding: '1.5rem'}}>
         <h2 className="fade-in">Your Tranquil Escape</h2>
         <div className="about-grid">
           <div className="about-text slide-in-left">
