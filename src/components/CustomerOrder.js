@@ -320,6 +320,7 @@ const CustomerOrder = ({ selectedItem }) => {
           <p>Your order ID: <strong>{orderId}</strong></p>
           <p>We'll send you updates on your order status.</p>
           
+          
           {/* Order Status Tracking */}
           <div className="order-status-tracker">
             <h3>Order Status</h3>
