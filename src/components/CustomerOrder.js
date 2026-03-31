@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CustomerOrder.css';
 
-const CustomerOrder = () => {
+// Import images
+import croissantImg from '../images/croissant.jpg';
+import blueberryMuffinImg from '../images/blueberry-muffin.jpg';
+import cinnamonRollImg from '../images/cinnamon-roll.jpg';
+import avocadoToastImg from '../images/avocado-toast.jpg';
+import grilledCheeseImg from '../images/grilled-cheese.jpg';
+import fruitBowlImg from '../images/fruit-bowl.jpg';
+import andromedaCoffeeImg from '../images/andromeda-coffee.jpg';
+import redrumCoffeeImg from '../images/redrum-coffee.jpg';
+import apexCoffeeImg from '../images/apex-coffee.jpg';
+import acrewoodCoffeeImg from '../images/acrewood-coffee.jpg';
+import kojiSakeCoffeeImg from '../images/koji-sake-coffee.jpg';
+
+const CustomerOrder = ({ selectedItem }) => {
   const [cart, setCart] = useState([]);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
@@ -11,6 +24,22 @@ const CustomerOrder = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [orderStatus, setOrderStatus] = useState('preparing'); // preparing, ready, completed
+
+  // Add selected item to cart if provided
+  useEffect(() => {
+    if (selectedItem) {
+      const cartItem = {
+        ...selectedItem,
+        quantity: 1,
+        id: selectedItem.name.toLowerCase().replace(/\s+/g, '-'),
+        actualPrice: selectedItem.price,
+        selectedSize: selectedItem.size || 'Standard',
+        image: selectedItem.image
+      };
+      setCart([cartItem]);
+    }
+  }, [selectedItem]);
 
   // Coffee seed packaging products
   const coffeeProducts = [
@@ -20,6 +49,7 @@ const CustomerOrder = () => {
       description: 'Our signature medium roast with notes of chocolate and caramel',
       price: 850,
       category: 'coffee-seeds',
+      image: andromedaCoffeeImg, // Using coffee image as placeholder
       sizes: [
         { size: '250g', price: 850 },
         { size: '500g', price: 1650 },
@@ -32,6 +62,7 @@ const CustomerOrder = () => {
       description: 'Bright and fruity with floral notes and citrus finish',
       price: 950,
       category: 'coffee-seeds',
+      image: redrumCoffeeImg, // Using coffee image as placeholder
       sizes: [
         { size: '250g', price: 950 },
         { size: '500g', price: 1850 },
@@ -44,6 +75,7 @@ const CustomerOrder = () => {
       description: 'Rich, full-bodied with chocolate and nutty notes',
       price: 900,
       category: 'coffee-seeds',
+      image: apexCoffeeImg, // Using coffee image as placeholder
       sizes: [
         { size: '250g', price: 900 },
         { size: '500g', price: 1750 },
@@ -58,28 +90,73 @@ const CustomerOrder = () => {
       name: 'Hikuri House Blend Coffee',
       description: 'Our signature medium roast brewed fresh',
       price: 450,
-      category: 'drinks'
+      category: 'drinks',
+      image: acrewoodCoffeeImg // Using coffee image as placeholder
     },
     {
       id: 'vanilla-latte',
       name: 'Vanilla Latte',
       description: 'Smooth espresso with vanilla syrup and steamed milk',
       price: 480,
-      category: 'drinks'
+      category: 'drinks',
+      image: kojiSakeCoffeeImg // Using coffee image as placeholder
     },
     {
       id: 'cold-brew',
       name: 'Cold Brew',
       description: '24-hour steeped coffee concentrate served over ice',
       price: 420,
-      category: 'drinks'
+      category: 'drinks',
+      image: andromedaCoffeeImg // Using coffee image as placeholder
     },
     {
       id: 'cappuccino',
       name: 'Cappuccino',
       description: 'Classic Italian espresso with equal parts steamed milk and foam',
       price: 400,
-      category: 'drinks'
+      category: 'drinks',
+      image: redrumCoffeeImg // Using coffee image as placeholder
+    },
+    // Pour Over Coffees
+    {
+      id: 'andromeda',
+      name: 'ANDROMEDA',
+      description: 'Clean & Smooth - South of the Rift Coffees, Rongo',
+      price: 650,
+      category: 'drinks',
+      image: andromedaCoffeeImg
+    },
+    {
+      id: 'redrum',
+      name: 'REDRUM',
+      description: 'Silky & Sweet - Kahira-ini factory, Mathira North, Nyeri',
+      price: 650,
+      category: 'drinks',
+      image: redrumCoffeeImg
+    },
+    {
+      id: 'apex',
+      name: 'APEX',
+      description: 'Bright & Fruity - Rift Valley Coffee, Nandi County',
+      price: 550,
+      category: 'drinks',
+      image: apexCoffeeImg
+    },
+    {
+      id: 'acrewood',
+      name: '100 ACRE WOOD',
+      description: 'Complex & Intense - Ngacha Coffee Estate, Kirinyaga',
+      price: 800,
+      category: 'drinks',
+      image: acrewoodCoffeeImg
+    },
+    {
+      id: 'koji-sake',
+      name: 'KOJI SAKE',
+      description: 'Tangy & Boozy - South of the Rift Coffees, Rongo',
+      price: 650,
+      category: 'drinks',
+      image: kojiSakeCoffeeImg
     }
   ];
 
@@ -89,28 +166,48 @@ const CustomerOrder = () => {
       name: 'Croissant',
       description: 'Buttery, flaky French pastry baked fresh daily',
       price: 280,
-      category: 'food'
+      category: 'food',
+      image: croissantImg
     },
     {
       id: 'blueberry-muffin',
       name: 'Blueberry Muffin',
       description: 'Moist muffin bursting with fresh blueberries',
       price: 320,
-      category: 'food'
+      category: 'food',
+      image: blueberryMuffinImg
     },
     {
       id: 'cinnamon-roll',
       name: 'Cinnamon Roll',
       description: 'Sweet roll with cinnamon filling and cream cheese frosting',
       price: 350,
-      category: 'food'
+      category: 'food',
+      image: cinnamonRollImg
     },
     {
       id: 'avocado-toast',
       name: 'Avocado Toast',
       description: 'Sourdough bread with mashed avocado, poached egg, and herbs',
       price: 550,
-      category: 'food'
+      category: 'food',
+      image: avocadoToastImg
+    },
+    {
+      id: 'grilled-cheese',
+      name: 'Grilled Cheese',
+      description: 'Gourmet cheese sandwich on artisan bread',
+      price: 450,
+      category: 'food',
+      image: grilledCheeseImg
+    },
+    {
+      id: 'fruit-bowl',
+      name: 'Fruit Bowl',
+      description: 'Seasonal fresh fruits with honey and granola',
+      price: 380,
+      category: 'food',
+      image: fruitBowlImg
     }
   ];
 
@@ -196,7 +293,23 @@ const CustomerOrder = () => {
     setCurrentStep(1);
     setOrderPlaced(false);
     setOrderId('');
+    setOrderStatus('preparing');
   };
+
+  // Simulate order status progression
+  useEffect(() => {
+    if (orderPlaced && orderStatus !== 'completed') {
+      const timer = setTimeout(() => {
+        if (orderStatus === 'preparing') {
+          setOrderStatus('ready');
+        } else if (orderStatus === 'ready') {
+          setOrderStatus('completed');
+        }
+      }, 5000); // Change status every 5 seconds for demo
+      
+      return () => clearTimeout(timer);
+    }
+  }, [orderPlaced, orderStatus]);
 
   if (orderPlaced) {
     return (
@@ -206,11 +319,55 @@ const CustomerOrder = () => {
           <h2>Order Placed Successfully!</h2>
           <p>Your order ID: <strong>{orderId}</strong></p>
           <p>We'll send you updates on your order status.</p>
+          
+          {/* Order Status Tracking */}
+          <div className="order-status-tracker">
+            <h3>Order Status</h3>
+            <div className="status-stages">
+              <div className={`status-stage ${orderStatus === 'preparing' || orderStatus === 'ready' || orderStatus === 'completed' ? 'active' : ''} ${orderStatus === 'ready' || orderStatus === 'completed' ? 'completed' : ''}`}>
+                <div className="status-icon">
+                  <div className="icon-content">⏱️</div>
+                </div>
+                <div className="status-info">
+                  <h4>Preparing</h4>
+                  <p>Your order is being prepared</p>
+                </div>
+              </div>
+              
+              <div className={`status-stage ${orderStatus === 'ready' || orderStatus === 'completed' ? 'active' : ''} ${orderStatus === 'completed' ? 'completed' : ''}`}>
+                <div className="status-icon">
+                  <div className="icon-content">✅</div>
+                </div>
+                <div className="status-info">
+                  <h4>Ready</h4>
+                  <p>Your order is ready for pickup</p>
+                </div>
+              </div>
+              
+              <div className={`status-stage ${orderStatus === 'completed' ? 'active completed' : ''}`}>
+                <div className="status-icon">
+                  <div className="icon-content">🎉</div>
+                </div>
+                <div className="status-info">
+                  <h4>Completed</h4>
+                  <p>Order completed successfully</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div className="order-summary">
             <h3>Order Summary</h3>
             {cart.map((item, index) => (
               <div key={index} className="summary-item">
-                <span>{item.quantity}x {item.name} ({item.selectedSize})</span>
+                <div className="summary-item-content">
+                  {item.image && (
+                    <div className="summary-item-image">
+                      <img src={item.image} alt={item.name} />
+                    </div>
+                  )}
+                  <span>{item.quantity}x {item.name} ({item.selectedSize})</span>
+                </div>
                 <span>Ksh {item.actualPrice * item.quantity}</span>
               </div>
             ))}
@@ -218,6 +375,19 @@ const CustomerOrder = () => {
               <strong>Total: Ksh {getTotalPrice()}</strong>
             </div>
           </div>
+          
+          <div className="status-message">
+            {orderStatus === 'preparing' && (
+              <p className="status-preparing">🔥 Your order is being prepared... Estimated time: 5-10 minutes</p>
+            )}
+            {orderStatus === 'ready' && (
+              <p className="status-ready">📢 Your order is ready for pickup! Please come to the counter.</p>
+            )}
+            {orderStatus === 'completed' && (
+              <p className="status-completed">🎉 Thank you for your order! Enjoy your meal!</p>
+            )}
+          </div>
+          
           <button onClick={resetOrder} className="new-order-btn">
             Place Another Order
           </button>
@@ -266,6 +436,11 @@ const CustomerOrder = () => {
               .filter(product => product.category === selectedCategory)
               .map(product => (
                 <div key={product.id} className="product-card">
+                  {product.image && (
+                    <div className="product-image">
+                      <img src={product.image} alt={product.name} />
+                    </div>
+                  )}
                   <div className="product-info">
                     <h3>{product.name}</h3>
                     <p>{product.description}</p>
@@ -331,6 +506,11 @@ const CustomerOrder = () => {
               <div className="cart-items">
                 {cart.map((item, index) => (
                   <div key={index} className="cart-item">
+                    {item.image && (
+                      <div className="item-image">
+                        <img src={item.image} alt={item.name} />
+                      </div>
+                    )}
                     <div className="item-details">
                       <h4>{item.name}</h4>
                       <p>{item.selectedSize}</p>
@@ -451,7 +631,14 @@ const CustomerOrder = () => {
               <h3>Order Items</h3>
               {cart.map((item, index) => (
                 <div key={index} className="review-item">
-                  <span>{item.quantity}x {item.name} ({item.selectedSize})</span>
+                  <div className="review-item-content">
+                    {item.image && (
+                      <div className="review-item-image">
+                        <img src={item.image} alt={item.name} />
+                      </div>
+                    )}
+                    <span>{item.quantity}x {item.name} ({item.selectedSize})</span>
+                  </div>
                   <span>Ksh {item.actualPrice * item.quantity}</span>
                 </div>
               ))}

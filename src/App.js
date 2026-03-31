@@ -18,10 +18,78 @@ import posterImg from './images/poster.jpeg';
 import tuffImg from './images/tuff.jpeg';
 import deck2Img from './images/deck2.jpeg';
 
+// New coffee and food images
+import andromedaCoffeeImg from './images/andromeda-coffee.jpg';
+import redrumCoffeeImg from './images/redrum-coffee.jpg';
+import apexCoffeeImg from './images/apex-coffee.jpg';
+import acrewoodCoffeeImg from './images/acrewood-coffee.jpg';
+import kojiSakeCoffeeImg from './images/koji-sake-coffee.jpg';
+import croissantImg from './images/croissant.jpg';
+import blueberryMuffinImg from './images/blueberry-muffin.jpg';
+import cinnamonRollImg from './images/cinnamon-roll.jpg';
+import avocadoToastImg from './images/avocado-toast.jpg';
+import grilledCheeseImg from './images/grilled-cheese.jpg';
+import fruitBowlImg from './images/fruit-bowl.jpg';
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  // Pour over menu data
+  const pourOverMenu = [
+    {
+      name: "ANDROMEDA",
+      farm: "South of the Rift Coffees",
+      region: "Rongo",
+      varietal: "Riuru 11",
+      process: "Lacto Washed",
+      characteristics: "Clean & Smooth",
+      price: 650,
+      image: andromedaCoffeeImg
+    },
+    {
+      name: "REDRUM",
+      farm: "Kahira-ini factory",
+      region: "Mathira North, Nyeri",
+      varietal: "Batian, Ruiru II",
+      process: "Natural",
+      characteristics: "Silky & Sweet",
+      price: 650,
+      image: redrumCoffeeImg
+    },
+    {
+      name: "APEX",
+      farm: "Rift Valley Coffee",
+      region: "Nandi County",
+      varietal: "Batian + Ruiru 11",
+      process: "Natural Anaerobic",
+      characteristics: "Bright & Fruity",
+      price: 550,
+      image: apexCoffeeImg
+    },
+    {
+      name: "100 ACRE WOOD",
+      farm: "Ngacha Coffee Estate",
+      region: "Kirinyaga",
+      varietal: "SL28/34",
+      process: "Yellow Honey",
+      characteristics: "Complex & Intense",
+      price: 800,
+      image: acrewoodCoffeeImg
+    },
+    {
+      name: "KOJI SAKE",
+      farm: "South of the Rift Coffees",
+      region: "Rongo",
+      varietal: "Riuru 11",
+      process: "Anaerobic Natural with Koji Inoculation",
+      characteristics: "Tangy & Boozy",
+      price: 650,
+      image: kojiSakeCoffeeImg
+    }
+  ];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -29,6 +97,11 @@ function App() {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleOrderNow = (item) => {
+    setSelectedItem(item);
+    setCurrentPage('order');
   };
 
   // Scroll animations
@@ -123,7 +196,7 @@ function App() {
   }
 
   if (currentPage === 'order') {
-    return <CustomerOrder />;
+    return <CustomerOrder selectedItem={selectedItem} />;
   }
 
   return (
@@ -194,14 +267,45 @@ function App() {
           
           <div className="menu-categories">
             <div className="category-tabs">
-              <button className="tab-btn active" data-category="coffee">Coffee</button>
+              <button className="tab-btn active" data-category="pourover">Pour Over</button>
+              <button className="tab-btn" data-category="coffee">Coffee</button>
               <button className="tab-btn" data-category="pastries">Pastries</button>
               <button className="tab-btn" data-category="bites">Light Bites</button>
             </div>
           </div>
 
           <div className="menu-grid">
-            <div className="menu-category active" id="coffee">
+            <div className="menu-category active" id="pourover">
+              {pourOverMenu.map((coffee, index) => (
+                <div key={coffee.name} className="menu-item-card scale-in stagger-${(index % 6) + 1}">
+                  <div className="coffee-image-container">
+                    <img src={coffee.image} alt={coffee.name} className="coffee-image" />
+                    <div className="coffee-overlay">
+                      <div className="coffee-details">
+                        <h3>{coffee.name}</h3>
+                        <p className="price">Ksh {coffee.price}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="coffee-info">
+                    <h4>{coffee.name}</h4>
+                    <div className="coffee-meta">
+                      <span className="meta-item"><strong>Farm:</strong> {coffee.farm}</span>
+                      <span className="meta-item"><strong>Region:</strong> {coffee.region}</span>
+                      <span className="meta-item"><strong>Varietal:</strong> {coffee.varietal}</span>
+                      <span className="meta-item"><strong>Process:</strong> {coffee.process}</span>
+                      <span className="meta-item characteristics"><strong>Taste:</strong> {coffee.characteristics}</span>
+                    </div>
+                    <div className="coffee-footer">
+                      <span className="price-tag">Ksh {coffee.price}</span>
+                      <button className="order-btn" onClick={() => handleOrderNow(coffee)}>Order Now</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="menu-category" id="coffee">
               <div className="menu-item scale-in stagger-6">
                 <div className="item-header">
                   <h4>Hikuri House Blend (250g)</h4>
@@ -303,77 +407,167 @@ function App() {
             </div>
 
             <div className="menu-category" id="pastries">
-              <div className="menu-item scale-in stagger-1">
-                <div className="item-header">
+              <div className="menu-item-card scale-in stagger-1">
+                <div className="coffee-image-container">
+                  <img src={croissantImg} alt="Croissant" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Croissant</h3>
+                      <p className="price">Ksh 280</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="coffee-info">
                   <h4>Croissant</h4>
-                  <span className="price">Ksh 280</span>
-                </div>
-                <p className="item-description">Buttery, flaky French pastry baked fresh daily</p>
-                <div className="item-tags">
-                  <span className="tag">Fresh</span>
-                  <span className="tag">Classic</span>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Buttery, flaky French pastry baked fresh daily</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 280</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Croissant",
+                      price: 280,
+                      description: "Buttery, flaky French pastry baked fresh daily",
+                      category: "pastries"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
               
-              <div className="menu-item scale-in stagger-2">
-                <div className="item-header">
+              <div className="menu-item-card scale-in stagger-2">
+                <div className="coffee-image-container">
+                  <img src={blueberryMuffinImg} alt="Blueberry Muffin" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Blueberry Muffin</h3>
+                      <p className="price">Ksh 320</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="coffee-info">
                   <h4>Blueberry Muffin</h4>
-                  <span className="price">Ksh 320</span>
-                </div>
-                <p className="item-description">Moist muffin bursting with fresh blueberries</p>
-                <div className="item-tags">
-                  <span className="tag">Sweet</span>
-                  <span className="tag">Fruity</span>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Moist muffin bursting with fresh blueberries</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 320</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Blueberry Muffin",
+                      price: 320,
+                      description: "Moist muffin bursting with fresh blueberries",
+                      category: "pastries"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
               
-              <div className="menu-item scale-in stagger-3">
-                <div className="item-header">
-                  <h4>Cinnamon Roll</h4>
-                  <span className="price">Ksh 350</span>
+              <div className="menu-item-card scale-in stagger-3">
+                <div className="coffee-image-container">
+                  <img src={cinnamonRollImg} alt="Cinnamon Roll" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Cinnamon Roll</h3>
+                      <p className="price">Ksh 350</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="item-description">Sweet roll with cinnamon filling and cream cheese frosting</p>
-                <div className="item-tags">
-                  <span className="tag">Indulgent</span>
-                  <span className="tag">Popular</span>
+                <div className="coffee-info">
+                  <h4>Cinnamon Roll</h4>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Sweet roll with cinnamon filling and cream cheese frosting</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 350</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Cinnamon Roll",
+                      price: 350,
+                      description: "Sweet roll with cinnamon filling and cream cheese frosting",
+                      category: "pastries"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="menu-category" id="bites">
-              <div className="menu-item scale-in stagger-1">
-                <div className="item-header">
+              <div className="menu-item-card scale-in stagger-1">
+                <div className="coffee-image-container">
+                  <img src={avocadoToastImg} alt="Avocado Toast" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Avocado Toast</h3>
+                      <p className="price">Ksh 550</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="coffee-info">
                   <h4>Avocado Toast</h4>
-                  <span className="price">Ksh 550</span>
-                </div>
-                <p className="item-description">Sourdough bread with mashed avocado, poached egg, and herbs</p>
-                <div className="item-tags">
-                  <span className="tag">Healthy</span>
-                  <span className="tag">Brunch</span>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Sourdough bread with mashed avocado, poached egg, and herbs</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 550</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Avocado Toast",
+                      price: 550,
+                      description: "Sourdough bread with mashed avocado, poached egg, and herbs",
+                      category: "bites"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
               
-              <div className="menu-item scale-in stagger-2">
-                <div className="item-header">
+              <div className="menu-item-card scale-in stagger-2">
+                <div className="coffee-image-container">
+                  <img src={grilledCheeseImg} alt="Grilled Cheese" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Grilled Cheese</h3>
+                      <p className="price">Ksh 450</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="coffee-info">
                   <h4>Grilled Cheese</h4>
-                  <span className="price">Ksh 450</span>
-                </div>
-                <p className="item-description">Gourmet cheese sandwich on artisan bread</p>
-                <div className="item-tags">
-                  <span className="tag">Comfort</span>
-                  <span className="tag">Cheesy</span>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Gourmet cheese sandwich on artisan bread</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 450</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Grilled Cheese",
+                      price: 450,
+                      description: "Gourmet cheese sandwich on artisan bread",
+                      category: "bites"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
               
-              <div className="menu-item scale-in stagger-3">
-                <div className="item-header">
-                  <h4>Fruit Bowl</h4>
-                  <span className="price">Ksh 380</span>
+              <div className="menu-item-card scale-in stagger-3">
+                <div className="coffee-image-container">
+                  <img src={fruitBowlImg} alt="Fruit Bowl" className="coffee-image" />
+                  <div className="coffee-overlay">
+                    <div className="coffee-details">
+                      <h3>Fruit Bowl</h3>
+                      <p className="price">Ksh 380</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="item-description">Seasonal fresh fruits with honey and granola</p>
-                <div className="item-tags">
-                  <span className="tag">Fresh</span>
-                  <span className="tag">Healthy</span>
+                <div className="coffee-info">
+                  <h4>Fruit Bowl</h4>
+                  <div className="coffee-meta">
+                    <span className="meta-item">Seasonal fresh fruits with honey and granola</span>
+                  </div>
+                  <div className="coffee-footer">
+                    <span className="price-tag">Ksh 380</span>
+                    <button className="order-btn" onClick={() => handleOrderNow({
+                      name: "Fruit Bowl",
+                      price: 380,
+                      description: "Seasonal fresh fruits with honey and granola",
+                      category: "bites"
+                    })}>Order Now</button>
+                  </div>
                 </div>
               </div>
             </div>
