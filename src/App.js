@@ -277,7 +277,7 @@ function App() {
           <div className="menu-grid">
             <div className="menu-category active" id="pourover">
               {pourOverMenu.map((coffee, index) => (
-                <div key={coffee.name} className="menu-item-card scale-in stagger-${(index % 6) + 1}">
+                <div key={coffee.name} className={`menu-item-card scale-in stagger-${(index % 6) + 1}`}>
                   <div className="coffee-image-container">
                     <img src={coffee.image} alt={coffee.name} className="coffee-image" />
                     <div className="coffee-overlay">
